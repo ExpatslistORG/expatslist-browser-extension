@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ExpatsList.org</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        width: 360px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        color: #14171a;
+        background: #ffffff;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 18px 12px;
+      }
+      .header img { width: 24px; height: 24px; }
+      .header span { font-weight: 800; font-size: 17px; }
+
+      /* ---- tabs ---- */
+      .tabs {
+        display: flex;
+        gap: 6px;
+        padding: 0 18px;
+        border-bottom: 1px solid #eee;
+      }
+      .tab {
+        background: none;
+        border: none;
+        font-family: inherit;
+        font-size: 15px;
+        font-weight: 700;
+        color: #888;
+        padding: 8px 4px 12px;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        margin-bottom: -1px;
+      }
+      .tab.active { color: #e63946; border-bottom-color: #e63946; }
+
+      .body { padding: 6px 18px 18px; }
+
+      a.button,
+      button.button {
+        display: block;
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+        background: #e63946;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 800;
+        padding: 12px 0;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+      }
+
+      .intro { font-size: 15px; font-weight: 600; color: #444; margin-bottom: 14px; text-align: center; }
+
+      /* ---- searchable city picker ---- */
+      .city-picker { position: relative; }
+      #city-input {
+        width: 100%;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: inherit;
+        background: #fff;
+        color: #14171a;
+      }
+      #city-input:focus { outline: none; border-color: #e63946; }
+      .city-dropdown {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: calc(100% + 4px);
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 9px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-height: 220px;
+        overflow-y: auto;
+        z-index: 5;
+      }
+      .city-option {
+        padding: 9px 12px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .city-option .name { font-weight: 700; }
+      .city-option .country { font-weight: 500; color: #888; margin-left: 4px; }
+      .city-option.is-active { background: #fdeceD; }
+      .city-empty { padding: 12px; font-size: 13px; font-weight: 600; color: #999; text-align: center; }
+
+      .near-you {
+        display: none;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #888;
+        margin: 7px 2px 3px;
+      }
+      .near-you.visible { display: flex; }
+      .near-you .dot { width: 6px; height: 6px; border-radius: 50%; background: #2a9d5c; flex: none; }
+
+      /* ---- city feed ---- */
+      .feed-list { display: flex; flex-direction: column; gap: 9px; max-height: 380px; overflow-y: auto; margin-top: 10px; }
+      .feed-item {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        border: 1px solid #eee;
+        border-radius: 9px;
+        padding: 10px 12px;
+      }
+      .feed-item:hover { border-color: #e63946; background: #fff8f8; }
+      .feed-item-top { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
+      .feed-type {
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        color: #e63946;
+        background: #fdeceD;
+        padding: 3px 7px;
+        border-radius: 5px;
+      }
+      .feed-time { font-size: 12px; font-weight: 700; color: #999; margin-left: auto; }
+      .feed-title { font-size: 15px; font-weight: 800; line-height: 1.3; margin-bottom: 3px; }
+      .feed-preview {
+        font-size: 13px;
+        font-weight: 500;
+        color: #555;
+        line-height: 1.35;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .feed-empty, .feed-loading { font-size: 14px; font-weight: 600; color: #999; text-align: center; padding: 24px 0; }
+
+      /* The list's own last stop, not another card: a plain link under a
+         rule, so scrolling to it reads as "that's everything I fetched",
+         not one more post. */
+      .feed-more {
+        text-align: center;
+        padding: 12px 0 2px;
+        margin-top: 2px;
+        border-top: 1px solid #eee;
+      }
+      .feed-more a {
+        font-size: 13px;
+        font-weight: 800;
+        color: #e63946;
+        text-decoration: none;
+      }
+      .feed-more a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <img src="icons/icon32.png" alt="ExpatsList.org" />
+      <span>ExpatsList.org</span>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" id="tab-feed" data-tab="feed">City feed</button>
+      <button class="tab" id="tab-messages" data-tab="messages">Messages</button>
+    </div>
+
+    <!-- ===== City feed tab (public, no sign-in required) ===== -->
+    <div class="body" id="feed-view">
+      <div class="city-picker">
+        <input type="text" id="city-input" placeholder="Search a city…" autocomplete="off" />
+        <div class="city-dropdown" id="city-dropdown" hidden></div>
+      </div>
+      <div class="near-you" id="near-you"><span class="dot"></span><span>Near you, by your timezone</span></div>
+      <div class="feed-list" id="feed-list">
+        <div class="feed-loading">Finding a city near you…</div>
+      </div>
+    </div>
+
+    <!-- ===== Messages tab: just a link out, no sign-in here ===== -->
+    <div class="body" id="messages-view" hidden>
+      <div class="intro">See your ExpatsList.org messages</div>
+      <a class="button" href="https://expatslist.org/account/messages" target="_blank">Open ExpatsList.org</a>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

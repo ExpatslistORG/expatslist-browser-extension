@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ExpatsList.org Messages — screenshot</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        width: 1280px;
+        height: 800px;
+        background: #eef1f4;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        overflow: hidden;
+      }
+
+      /* ---- fake Chrome toolbar ---- */
+      .toolbar {
+        width: 1280px;
+        height: 76px;
+        background: #dee1e6;
+        border-bottom: 1px solid #c7cacf;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        gap: 14px;
+      }
+      .nav-dot { width: 12px; height: 12px; border-radius: 50%; background: #b7bac0; }
+      .addressbar {
+        flex: 1;
+        max-width: 640px;
+        height: 34px;
+        background: #ffffff;
+        border-radius: 17px;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        font-size: 13px;
+        color: #3c4043;
+        box-shadow: inset 0 0 0 1px #dcdfe3;
+      }
+      .addressbar .lock { color: #1a7f37; margin-right: 8px; font-size: 12px; }
+      .toolbar-icons { display: flex; align-items: center; gap: 18px; margin-left: auto; }
+      .toolbar-icon-dot { width: 20px; height: 20px; border-radius: 4px; background: #b7bac0; }
+
+      /* extension toolbar icon: red circle with big count, exactly how
+         background.js's drawCountIcon renders it onto the real toolbar */
+      .ext-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #e63946;
+        color: #fff;
+        font-weight: 700;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+        position: relative;
+      }
+
+      /* popup panel — identical markup/CSS to the real popup.html */
+      .popup-anchor {
+        position: relative;
+        margin: 18px 40px 0 auto;
+        width: 280px;
+      }
+      .popup-arrow {
+        position: absolute;
+        top: -8px;
+        right: 26px;
+        width: 16px;
+        height: 16px;
+        background: #fff;
+        transform: rotate(45deg);
+        box-shadow: -2px -2px 4px rgba(0,0,0,0.04);
+      }
+      .popup {
+        position: relative;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+        color: #1a1a1a;
+        overflow: hidden;
+      }
+      .header { display: flex; align-items: center; gap: 8px; padding: 14px 16px 10px; }
+      .header img { width: 20px; height: 20px; }
+      .header span { font-weight: 600; font-size: 14px; }
+      .body { padding: 4px 16px 16px; }
+      .count { font-size: 32px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+      .label { font-size: 13px; color: #555; margin-bottom: 14px; }
+      a.button {
+        display: block; width: 100%; box-sizing: border-box; text-align: center;
+        text-decoration: none; background: #e63946; color: #fff; font-size: 13px;
+        font-weight: 600; padding: 9px 0; border-radius: 6px;
+      }
+      .signed-in-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+      .signed-in-footer span { font-size: 11px; color: #999; }
+      .signed-in-footer button { background: none; border: none; color: #999; font-size: 11px; padding: 0; font-family: inherit; }
+
+      /* backdrop page content behind the toolbar, to sell "this is a real browser" */
+      .page-mock {
+        width: 1280px;
+        height: 724px;
+        background: #ffffff;
+        padding: 40px 60px;
+      }
+      .page-mock h1 { font-size: 26px; color: #1a1a1a; margin: 0 0 6px; }
+      .page-mock p { font-size: 15px; color: #6b7280; margin: 0; }
+      .page-mock .brandbar {
+        display: flex; align-items: center; gap: 10px; margin-bottom: 40px;
+      }
+      .page-mock .brandbar img { width: 28px; height: 28px; }
+      .page-mock .brandbar b { font-size: 18px; }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar">
+      <div class="nav-dot"></div>
+      <div class="nav-dot"></div>
+      <div class="addressbar"><span class="lock">&#128274;</span>expatslist.org/account/messages</div>
+      <div class="toolbar-icons">
+        <div class="toolbar-icon-dot"></div>
+        <div class="toolbar-icon-dot"></div>
+        <div class="ext-icon">3</div>
+      </div>
+    </div>
+
+    <div class="popup-anchor">
+      <div class="popup-arrow"></div>
+      <div class="popup">
+        <div class="header">
+          <img src="../icons/icon32.png" alt="ExpatsList.org" />
+          <span>ExpatsList.org</span>
+        </div>
+        <div class="body">
+          <div class="count">3</div>
+          <div class="label">unread messages</div>
+          <a class="button" href="#">Open messages</a>
+          <div class="signed-in-footer">
+            <span>piplio@gmail.com</span>
+            <button>Sign out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-mock">
+      <div class="brandbar">
+        <img src="../icons/icon48.png" alt="ExpatsList.org" />
+        <b>ExpatsList.org</b>
+      </div>
+      <h1>Never miss a message on ExpatsList.org</h1>
+      <p>The toolbar badge updates in the background — no need to keep expatslist.org open.</p>
+    </div>
+  </body>
+</html>
