@@ -2,11 +2,11 @@
 
 See what is new in your Expatslist.org city from the toolbar: recommendations, questions, blog posts and businesses that locals post, plus a shortcut to your messages. It defaults to the nearest of the 44 cities, or you can search any city.
 
-Works in Chrome, Microsoft Edge and Firefox. This is the full source of the extension published for Expatslist.org.
+Works in Chrome, Microsoft Edge and Firefox. This repo holds the full source.
 
 ## What is a browser extension?
 
-A browser extension is a small add-on that lives in your browser toolbar. Click its icon and a popup opens, so you can use a service without opening its website first. This one is a popup only: it shows a short list and every item opens the real page on Expatslist.org.
+A browser extension is a small add-on in your browser toolbar. Click its icon and a popup opens. This one shows a short list, and each item opens the real page on Expatslist.org.
 
 ## About Expatslist.org
 
